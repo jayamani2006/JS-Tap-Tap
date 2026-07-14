@@ -1,0 +1,58 @@
+# ============================================================
+# JS Tap-Tap — .gitignore
+# ============================================================
+
+# ─── PyInstaller build output ───────────────────────────────
+build/
+dist/
+*.spec.bak
+
+# ─── Compiled Python ─────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# ─── Game user data (NEVER commit — contains password hashes) ─
+users.json
+
+# ─── Windows compiled binaries ───────────────────────────────
+*.exe
+*.dll
+*.pyz
+*.toc
+*.pkg
+*.xref.html
+warn-*.txt
+
+# ─── Virtual environments ─────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# ─── IDE / Editor ────────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# ─── OS cruft ─────────────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.lnk
+
+# ─── Test / coverage artefacts ────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# ─── Release packaging (generated, not stored in repo) ────────
+checksums-*.txt
+JS-Tap-Tap-Setup-*.zip
+JS-Tap-Tap-Portable-*.exe

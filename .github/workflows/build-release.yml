@@ -1,0 +1,110 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"          # Triggers only on tags like v1.0.0, v1.2.3, etc.
+
+permissions:
+  contents: write    # Required to upload assets to GitHub Releases
+
+jobs:
+  build:
+    name: Build standalone EXE (Windows)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Version check: git tag must match VERSION file ──────────────────────
+      - name: Verify tag matches VERSION file
+        shell: powershell
+        run: |
+          $fileVersion = (Get-Content VERSION).Trim()
+          $tagVersion  = "${{ github.ref_name }}"   # e.g. "v1.0.0"
+          $tagStripped = $tagVersion.TrimStart("v")  # e.g. "1.0.0"
+          if ($fileVersion -ne $tagStripped) {
+            Write-Error "Version mismatch: VERSION file says '$fileVersion' but git tag is '$tagVersion'"
+            exit 1
+          }
+          Write-Host "Version check passed: $fileVersion"
+
+      # ── Python setup ─────────────────────────────────────────────────────────
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── Build EXE ────────────────────────────────────────────────────────────
+      - name: Build with PyInstaller
+        run: pyinstaller packaging/game.spec
+
+      # ── Smoke-test: verify EXE was produced ──────────────────────────────────
+      - name: Verify EXE exists
+        shell: powershell
+        run: |
+          $exePath = "dist\JS Tap-Tap.exe"
+          if (-not (Test-Path $exePath)) {
+            Write-Error "Build failed: $exePath not found"
+            exit 1
+          }
+          $sizeMB = [math]::Round((Get-Item $exePath).Length / 1MB, 1)
+          Write-Host "EXE found: $exePath ($sizeMB MB)"
+
+      # ── Package installer bundle ──────────────────────────────────────────────
+      - name: Package installer ZIP
+        shell: powershell
+        run: |
+          $version = (Get-Content VERSION).Trim()
+          $zipName = "JS-Tap-Tap-Setup-v$version.zip"
+          Compress-Archive -Path `
+            "dist\JS Tap-Tap.exe", `
+            "installer\Install.bat", `
+            "installer\welcome.py", `
+            "assets\branding\icon.ico" `
+            -DestinationPath $zipName
+          Write-Host "Created: $zipName"
+
+      # ── Generate checksums ───────────────────────────────────────────────────
+      - name: Generate SHA-256 checksums
+        shell: powershell
+        run: |
+          $version = (Get-Content VERSION).Trim()
+          $zipName = "JS-Tap-Tap-Setup-v$version.zip"
+          $exeName = "dist\JS Tap-Tap.exe"
+          $checksumFile = "checksums-v$version.txt"
+
+          $zipHash = (Get-FileHash $zipName -Algorithm SHA256).Hash
+          $exeHash = (Get-FileHash $exeName -Algorithm SHA256).Hash
+
+          Set-Content $checksumFile "SHA-256 Checksums for JS Tap-Tap v$version`n"
+          Add-Content $checksumFile "$zipHash  $zipName"
+          Add-Content $checksumFile "$exeHash  JS-Tap-Tap-Portable-v$version.exe"
+
+          Write-Host "Checksums written to $checksumFile"
+          Get-Content $checksumFile
+
+      # ── Rename portable EXE ──────────────────────────────────────────────────
+      - name: Rename portable EXE
+        shell: powershell
+        run: |
+          $version = (Get-Content VERSION).Trim()
+          Copy-Item "dist\JS Tap-Tap.exe" "JS-Tap-Tap-Portable-v$version.exe"
+
+      # ── Upload release assets to GitHub Release ───────────────────────────────
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            JS-Tap-Tap-Setup-v*.zip
+            JS-Tap-Tap-Portable-v*.exe
+            checksums-v*.txt
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

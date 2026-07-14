@@ -1,0 +1,14 @@
+# Tested and pinned versions for building JS Tap-Tap from source.
+# Install with:  pip install -r requirements.txt
+#
+# End users do NOT need Python or any of these packages.
+# The distributed EXE is fully standalone (built with PyInstaller).
+
+# Game engine
+pygame==2.6.1
+
+# Image processing (used by installer/welcome.py popup only)
+Pillow==11.1.0
+
+# Build tool — used to package the game into a standalone EXE
+pyinstaller==6.11.1
