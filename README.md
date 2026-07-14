@@ -1,11 +1,14 @@
 <p align="center">
-  <img src="assets/branding/JSSTP logo.jpg" alt="JS SoftTools Logo" width="150"><br>
-  <img src="assets/branding/logo-banner.png" alt="JS Tap-Tap Banner" width="600">
+  <img src="assets/branding/JSSTP logo.jpg" alt="JS SoftTools Logo" width="150" style="border-radius: 50%;">
 </p>
 
 > **IMPORTANT:** This software is developed for student learning and educational purposes only.
 
 <h1 align="center">JS Tap-Tap</h1>
+
+<p align="center">
+  <strong>Team: Chip-X | Developer: Jayasubramani S</strong>
+</p>
 
 <p align="center">
   <strong>A fast, local, target-clicking arcade game.</strong>
@@ -83,9 +86,9 @@ JS Tap-Tap is a fast-paced, reflex-testing target clicking game developed by **J
 
 ## Demo
 
-> 🎥 **[Watch the full 60-second gameplay demo video (demo.mp4)](assets/media/demo.mp4)**
+<video src="https://raw.githubusercontent.com/jayamani2006/JS-Tap-Tap/main/assets/media/demo.mp4" controls autoplay muted loop width="100%"></video>
 
-*(Note: Ensure demo.mp4 is located at `assets/media/demo.mp4`)*
+*(If the video doesn't load automatically, [click here to view it](assets/media/demo.mp4))*
 
 ---
 

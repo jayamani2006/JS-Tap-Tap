@@ -32,7 +32,7 @@ def test_hash_password():
     hashed = auth.hash_password(password, salt)
     assert isinstance(hashed, str)
     assert len(hashed) == 64  # SHA-256 hex digest length
-    
+
     # Ensure same input produces same output
     assert auth.hash_password(password, salt) == hashed
     # Ensure different password produces different output
@@ -45,33 +45,33 @@ def test_create_and_verify_user(mock_users_db):
     """Test full registration and login flow."""
     username = "test_user"
     password = "test_password"
-    
+
     # 1. Registration
     ok, msg = auth.create_user(username, password)
     assert ok is True
     assert msg == "Registered."
-    
+
     users = auth.load_users()
     assert username in users
     assert "salt" in users[username]
     assert "hash" in users[username]
     assert users[username]["highscore"] == 0
-    
+
     # 2. Duplicate registration should fail
     ok, msg = auth.create_user(username, "another_password")
     assert ok is False
     assert msg == "Username already exists."
-    
+
     # 3. Successful login
     ok, msg = auth.verify_user(username, password)
     assert ok is True
     assert msg == "Login successful."
-    
+
     # 4. Incorrect password
     ok, msg = auth.verify_user(username, "wrong_password")
     assert ok is False
     assert msg == "Incorrect password."
-    
+
     # 5. Non-existent user
     ok, msg = auth.verify_user("non_existent_user", "password")
     assert ok is False
@@ -82,18 +82,18 @@ def test_highscore_persistence(mock_users_db):
     """Test highscore updating and retrieval."""
     username = "score_test_user"
     auth.create_user(username, "password123")
-    
+
     # Initial score should be 0
     assert auth.get_highscore(username) == 0
-    
+
     # Update to 10
     auth.update_highscore(username, 10)
     assert auth.get_highscore(username) == 10
-    
+
     # Lower score should not overwrite
     auth.update_highscore(username, 5)
     assert auth.get_highscore(username) == 10
-    
+
     # Higher score should overwrite
     auth.update_highscore(username, 50)
     assert auth.get_highscore(username) == 50
