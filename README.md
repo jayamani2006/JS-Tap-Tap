@@ -1,6 +1,9 @@
 <p align="center">
+  <img src="assets/branding/JSSTP logo.jpg" alt="JS SoftTools Logo" width="150"><br>
   <img src="assets/branding/logo-banner.png" alt="JS Tap-Tap Banner" width="600">
 </p>
+
+> **IMPORTANT:** This software is developed for student learning and educational purposes only.
 
 <h1 align="center">JS Tap-Tap</h1>
 
@@ -226,5 +229,8 @@ Found a bug or have a feature request? Please open an issue on the [GitHub Issue
 ## Acknowledgements
 
 - Built with [Pygame](https://www.pygame.org/)
-- Packaged with [PyInstaller](https://pyinstaller.org/)
 - [Pillow](https://pillow.readthedocs.io/) used for popup image rendering
+
+---
+
+> **IMPORTANT:** This software is developed for student learning and educational purposes only. It is a portfolio project and not intended for commercial production use.

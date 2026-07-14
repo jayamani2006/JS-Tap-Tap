@@ -21,6 +21,7 @@ class _NullWriter:
     """Discards all writes — used to suppress stdout/stderr in the packaged EXE."""
     def write(self, _):
         pass
+
     def flush(self):
         pass
 
