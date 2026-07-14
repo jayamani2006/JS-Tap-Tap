@@ -86,9 +86,9 @@ JS Tap-Tap is a fast-paced, reflex-testing target clicking game developed by **J
 
 ## Demo
 
-<video src="https://raw.githubusercontent.com/jayamani2006/JS-Tap-Tap/main/assets/media/demo.mp4" controls autoplay muted loop width="100%"></video>
+<video src="https://github.com/jayamani2006/JS-Tap-Tap/raw/main/assets/media/demo.mp4" controls muted width="100%"></video>
 
-*(If the video doesn't load automatically, [click here to view it](assets/media/demo.mp4))*
+*(If the video doesn't load automatically, [click here to view it](https://github.com/jayamani2006/JS-Tap-Tap/raw/main/assets/media/demo.mp4))*
 
 ---
 
